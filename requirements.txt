@@ -1,0 +1,6 @@
+flask
+flask-bootstrap
+zerodb==0.97.6
+ZEO==4.1.0
+ZODB==4.2.0
+configparser
