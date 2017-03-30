@@ -1,22 +1,22 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 Load Config File
 """
-import ConfigParser
+import configparser
 
 
-CONF_FILE = '/tmp/my-blog.conf'
+CONF_FILE = './my-blog.conf'
 
 
 def get_config():
     """
     Return config object
     """
-    config = ConfigParser.RawConfigParser()
+    config = configparser.RawConfigParser()
     config.read(CONF_FILE)
     return config
 
 
 if __name__ == '__main__':
     CONF = get_config()
-    print "GET LOG LEVEL CONFIG: " + CONF.get('logging', 'log_level')
+    print ("GET LOG LEVEL CONFIG: %s" % CONF.get('logging', 'log_level'))
