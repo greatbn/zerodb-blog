@@ -7,14 +7,11 @@ class Posts(Model):
     """
     post_id = Field()
     post_title = Field()
-    post_content = Field()
-    # owner_id = Field()
+    post_content = Text()
+    table_role = Field()
 
-
-class Users(Model):
-    """
-    Model for users table
-    """
-    user_id = Field()
-    user_name = Field()
-    user_password = Field()
+    def __repr__(self):
+        return str({"post_id": self.post_id,
+                    "post_title": self.post_title,
+                    "post_content": self.post_content,
+                    "table_type": self.table_role})
