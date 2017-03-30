@@ -27,14 +27,19 @@ class ZeroDBStorage(object):
     def _create(self, post):
         with transaction.manager:
             try:
-                last_id = len(self.db[Posts])
-                p = Posts(post_id=last_id+1,
+                post_id = 0
+                posts = self.db[Posts].query(table_role="post")
+                if len(posts) != 0:
+                    post_id = int(posts[len(posts)-1].post_id) + 1
+                p = Posts(post_id=post_id,
                           post_title=post['title'],
-                          post_content=post['content'])
+                          post_content=post['content'],
+                          table_role="post")
                 self.db.add(p)
                 return True
             except:
                 LOG.error("Cannot create a post")
+        self.db.disconnect
 
     def _delete(self, post):
         try:
@@ -45,3 +50,11 @@ class ZeroDBStorage(object):
         except:
             LOG.error("Cannot remove a post "
                       "with post ID: %s" % post['post_id'])
+
+    def _get(self):
+        try:
+            posts = self.db[Posts].query(table_role="post")
+            LOG.debug("Posts: " + str(list(posts)))
+            return list(posts)
+        except Exception as e:
+            LOG.error("Cannot get posts in database: %s" % e)
