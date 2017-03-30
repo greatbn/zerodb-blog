@@ -7,6 +7,7 @@ from flask import (Flask, render_template, redirect,
 from flask_bootstrap import Bootstrap
 import models
 from database import ZeroDBStorage
+import json
 app = Flask(__name__)
 Bootstrap(app)
 
@@ -29,10 +30,12 @@ def error_in_data(error):
 
 @app.route("/api/addPost", methods=["POST"])
 def addPost():
+    print (request.json)
     if 'title' not in request.json and 'content' not in request.json:
         abort(400)
     else:
         zero = ZeroDBStorage()
+        print (request.json)
         if zero._create(post=request.json):
             return jsonify({'result': 'Add Post successful'})
         else:
@@ -50,6 +53,13 @@ def delPost():
         else:
             return jsonify({'result': 'Deleted post error'})
 
+
+@app.route("/api/getPosts", methods=['GET'])
+def getPosts():
+    zero = ZeroDBStorage()
+    posts = zero._get()
+    # result = json.
+    return jsonify(posts)
 
 @app.route("/")
 def index():
