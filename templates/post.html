@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}
+Blog Posts
+{% endblock title %}
+
+{% block main %}
+    {% if alert %}
+        <div class="alert alert-{{alert.type}}">
+            <strong>{{ alert.type }}</strong> {{ alert.message }}
+        </div>
+    {% endif %}
+
+    <div class="pull-right">
+        <a href="{{ url_for('add_post') }}" id="new">
+            <span class="glyphicon glyphicon-plus"></span>&nbsp;New
+        </a>
+        <a href="{{ url_for('del_post', post_id=post.pid) }}" id="del">
+            <span class="glyphicon glyphicon-minus"></span>&nbsp;Delete
+        </a>
+    </div>
+        <a href="/post/{{post.pid }}">
+            <h1>{{ post.post_title }}</h1>
+        </a>
+        <p>{{ post.post_content}}</p>
+    {% if ((meta)  and (meta.max_pages>1)) %}
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="pager">
+                    {% if meta.pagination.prev_page %}
+                        <li><a href="{{meta.pagination.prev_page}}">&laquo;Prev</a></li>
+                    {% else %}
+                        <li class="disabled"><a href="">&laquo; Prev</a></li>
+                    {% endif %}
+                    {% if meta.pagination.next_page %}
+                        <li><a href="{{meta.pagination.next_page}}">Next &raquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><a href="">Next &raquo;</a></li>
+                    {% endif %}
+
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+{% endblock main %}
